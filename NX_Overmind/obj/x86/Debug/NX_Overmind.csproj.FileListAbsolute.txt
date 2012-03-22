@@ -1,0 +1,2 @@
+G:\C# Projects\NX_Overmind\NX_Overlord\obj\x86\Debug\NX_Overlord.exe
+G:\C# Projects\NX_Overmind\NX_Overlord\obj\x86\Debug\NX_Overlord.pdb

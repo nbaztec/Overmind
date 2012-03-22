@@ -1,0 +1,9 @@
+G:\C# Projects\NX_Overlord\NX_Overlord\bin\Debug\NX_Overlord.exe
+G:\C# Projects\NX_Overlord\NX_Overlord\bin\Debug\NX_Overlord.pdb
+G:\C# Projects\NX_Overlord\NX_Overlord\obj\x86\Debug\ResolveAssemblyReference.cache
+G:\C# Projects\NX_Overlord\NX_Overlord\obj\x86\Debug\NX_Overlord.Form1.resources
+G:\C# Projects\NX_Overlord\NX_Overlord\obj\x86\Debug\NX_Overlord.Properties.Resources.resources
+G:\C# Projects\NX_Overlord\NX_Overlord\obj\x86\Debug\GenerateResource.read.1.tlog
+G:\C# Projects\NX_Overlord\NX_Overlord\obj\x86\Debug\GenerateResource.write.1.tlog
+G:\C# Projects\NX_Overlord\NX_Overlord\obj\x86\Debug\NX_Overlord.exe
+G:\C# Projects\NX_Overlord\NX_Overlord\obj\x86\Debug\NX_Overlord.pdb
