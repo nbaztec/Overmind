@@ -21,7 +21,7 @@ The project is dependent upon the following:
 
 You will need to compile the project in Microsoft Visual Studio 2010.
 
-## Contributing to HipHop
+## License
 
 Overmind is licensed under GNU LGPL v3 (http://www.gnu.org/licenses/lgpl-3.0.html).
 
@@ -34,7 +34,7 @@ See the GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Overmind.  If not, see <http://www.gnu.org/licenses/>.
 
-## Running HipHop
+## Running Overmind
 
 1. Start a server on the host machine.
 2. Connect the remote machine via the client by specifying the host address.
