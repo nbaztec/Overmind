@@ -165,6 +165,37 @@ namespace NX.Net
             }
         }
 
+
+
+        /// <summary>
+        /// Drops the client
+        /// </summary>
+        /// <param name="id">Client Id</param>
+        /// <returns>True if the client was dropped successfully</returns>
+        public bool Drop(int id)
+        {
+            if (this._isRunning)
+            {
+                try
+                {
+                    this._clientManager[id].Stop();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    if (this.OnError != null)
+                        this.OnError(this._tcpListener, new NetEventArgs(e));
+                    return false;
+                }
+            }
+            else
+            {
+                if (this.OnStatusChanged != null)
+                    this.OnStatusChanged(this._tcpListener, new NetEventArgs("Dropped."));
+                return false;
+            }
+        }
+
         /// <summary>
         /// Asynchronous waiting for client
         /// </summary>

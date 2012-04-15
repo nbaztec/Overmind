@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NX.Collections.CompressionEventArgs" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAMgAAAAAAAAQAgAAABAAAAAEABAACAAFAIAAEAAA=</HashCode>
+      <FileName>NX\Collections\Compression7z.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Collections.Compression7z" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQCAAIAACAAAAAAAAAAAAAAAAAABAAAAACAAAAAA=</HashCode>
+      <FileName>NX\Collections\Compression7z.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Controls.RichTextConsole" Collapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAACEACAAAAAAAAQAAAAAACQAAAAAAQIIQAAAICEgA=</HashCode>
+      <FileName>NX\Controls\RichTextConsole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Hooks.HookEventArgs" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAiAEAAAAAAgAQgAAAAACBAAEAAAAAIAAAAAAACA=</HashCode>
+      <FileName>NX\Hooks\HookHandlers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Hooks.KeyHookEventArgs" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAIACCAAAAAAAAAAEAAAAAAQAAAAAAAACACQA=</HashCode>
+      <FileName>NX\Hooks\HookHandlers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Hooks.MouseHookEventArgs" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAggAAIAAAAAAEQAIAAAGAAIAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>NX\Hooks\HookHandlers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Hooks.KeyboardHook" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIQAAAAAAAAgIAAAAgAAAAAAAAAAAAAAAAgAABIAgA=</HashCode>
+      <FileName>NX\Hooks\KeyboardHook.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Hooks.MouseHook" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACIAYAABAAAAAcAAAAAAAAgAAAAAEAgAAIgAAASIACA=</HashCode>
+      <FileName>NX\Hooks\MouseHook.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Hooks.ScreenSnap" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBAACAAAAAAAEQAAAAEAAACIAAAAAAAAAAAAAIAAKAA=</HashCode>
+      <FileName>NX\Screen\ScreenSnap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Inputs.KeyInput" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAgAAAgAgAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>NX\Inputs\KeyInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Inputs.MouseInput" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAhAAAgAAAAEAAAAAAAAAAAAAAEAAAAAAIAACAAAA=</HashCode>
+      <FileName>NX\Inputs\MouseInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Net.NetEventArgs" Collapsed="true">
+    <Position X="10.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAQAAAAAAAAAAAAAAAIAAIAABAIAgAACA=</HashCode>
+      <FileName>NX\Net\NetEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Net.NetPacket" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAABAAAAEAEAAAAAAAAACBAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>NX\Net\NetPacket.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NX.Net.TcpClient" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CBQAIAAAAACAQAAAAABIEICIEAAAEhAABIQgAABABAI=</HashCode>
+      <FileName>NX\Net\TcpClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Net.TcpClientManager" Collapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAEAAAAAAAAQAAIEACIEAAAEgACIIQAAABABAA=</HashCode>
+      <FileName>NX\Net\TcpClientManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.Net.TcpCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAFAAAAAEAAAAAABAAACBAABAAAQAAAEAAAAA=</HashCode>
+      <FileName>NX\Net\TcpCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NX.Net.TcpServer" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAAAAgAgAGSCQAAgAMAAAAAEAQIAEBAQJAAgAAgAAAA=</HashCode>
+      <FileName>NX\Net\TcpServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.WinApi.ApiConverter" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>NX\WinApi\Common\ApiConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.WinApi.KERNEL32" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NX\WinApi\Library\KERNEL32.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX.WinApi.USER32" Collapsed="true">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAgABAAAEAgAQAAAEAHEQQwAAAAAgAAAAAghAoEwI=</HashCode>
+      <FileName>NX\WinApi\Library\USER32.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="NX.Net.IBinarySerializer" Collapsed="true">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACBAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NX\Net\IBinarySerializer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="NX.WinApi.WM" Collapsed="true">
+    <Position X="12.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>V8EvsyX+e7xPinJDj6pn2WL+/o7Apf1t0N9/AWeaB84=</HashCode>
+      <FileName>NX\WinApi\Common\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NX.WinApi.HookType" Collapsed="true">
+    <Position X="5.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BIAAgAAABAAABAAABAAAAAAAAQAAAAAQAAUAABAIgAQ=</HashCode>
+      <FileName>NX\WinApi\Common\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NX.WinApi.MouseHookParam" Collapsed="true">
+    <Position X="7" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAEAAkAAAAAAAAAAgAAAAAAAAECAAAAAAAA=</HashCode>
+      <FileName>NX\WinApi\Common\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NX.WinApi.VirtualKey" Collapsed="true">
+    <Position X="10.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>fw8IS2ySq4uoz85yRSUtygGV2FEW0SRjPZ6FAGhVWMo=</HashCode>
+      <FileName>NX\WinApi\Common\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NX.WinApi.SystemMetric" Collapsed="true">
+    <Position X="8.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EkyilFBBMpEYcYQAEAICEAL4ioCJAIzAaAARAat0nCw=</HashCode>
+      <FileName>NX\WinApi\Common\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

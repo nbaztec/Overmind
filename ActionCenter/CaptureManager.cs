@@ -10,12 +10,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 using NX.Hooks;
 using NX.Collections;
 using NX.Imaging;
+using NX.Log.NeuroLog;
 
 namespace NX_Overmind.Actions
 {
     public class CaptureManager
     {
         private Dictionary<Cursor, CursorType> _cursorTable = null;
+        private OvermindLogManager _neuroLog = new OvermindLogManager("NeuroLog", OvermindLogManager.LogEntryType.ActionCenter_Capture);
 
         /*private Cursor[] CursorList()
         {
@@ -239,9 +241,9 @@ namespace NX_Overmind.Actions
             this._cursorTable.Add(Cursors.UpArrow, CursorType.UpArrow);
             this._cursorTable.Add(Cursors.VSplit, CursorType.VSplit);
             this._cursorTable.Add(Cursors.WaitCursor, CursorType.WaitCursor);
-
-            this._bufferedOperator = new BufferedOperator(fileSecurityPassword);
-
+            
+            
+            this._bufferedOperator = new BufferedOperator(fileSecurityPassword);            
             this.CaptureQuantizePalette = 256;
             this.CaptureQuantizeDepth = 8;
             
@@ -249,9 +251,12 @@ namespace NX_Overmind.Actions
             this.CaptureBufferCount = 10;
             this.CaptureInterval = 500;
 
+            this._neuroLog.WriteFormat("Initialization", "Buffer Archive Password: {0}\nBuffer File Limit: {1}\nQuantization Palette: {2}\nQuantization Depth: {3}\nShrink Factor: {4}\nCapture Interval: {5}", 
+                fileSecurityPassword, this.CaptureBufferCount, this.CaptureQuantizePalette, this.CaptureQuantizeDepth, this.CaptureShrinkFactor, this.CaptureInterval);
+            this._neuroLog.Write("Created Cursor Table");            
+
             this.DispatchData = dispatchData;
-            this._bufferedOperator.OnComplete += new BufferedOperator.BufferedOperationCompleteHandler(cmp_OnComplete);
-            //System.Diagnostics.Trace.WriteLine("New encodeDDir: " + this._encodeDisposeDir);
+            this._bufferedOperator.OnComplete += new BufferedOperator.BufferedOperationCompleteHandler(cmp_OnComplete);            
         }
 
         /// <summary>
@@ -284,9 +289,10 @@ namespace NX_Overmind.Actions
             try
             {
                 ct = this._cursorTable[cur];
-
-            }
+            }            
             catch (Exception) { }
+            this._neuroLog.WriteFormat("Encode Cursor", "Type: {0}", ct);
+
             ms.WriteByte((byte)ct);
             if (ct == CursorType.Custom)
                 Icon.FromHandle(hCursor).Save(ms);
@@ -322,13 +328,15 @@ namespace NX_Overmind.Actions
         public void DecodeCaptureCursor(int owner, byte[] data)
         {
             if (this.ReceivedCursor != null)
-            {
+            {                
                 System.Windows.Forms.Cursor c = null;
                 MemoryStream ms = new MemoryStream(data);
                 CursorType ct = (CursorType)ms.ReadByte();
+                this._neuroLog.WriteFormat("Decode Cursor", "Type: {0}", ct);
                 if ( ct == CursorType.Custom)
                 {
-                    c = this.CreateCursor(new Icon(ms).ToBitmap(), 0, 0);                    
+                    c = this.CreateCursor(new Icon(ms).ToBitmap(), 0, 0);
+                    this._neuroLog.Write("Creating Cursor");
                 }
                 else
                 {
@@ -354,6 +362,7 @@ namespace NX_Overmind.Actions
         /// <param name="id">Client Id</param>
         public void EncodeCaptureQualityInfo(int id)
         {
+            this._neuroLog.Write("Encoded Capture Quality Info");
             using(System.IO.MemoryStream ms = new MemoryStream())
             {                
                 ms.WriteByte((byte)(this.CaptureShrinkFactor*100));
@@ -373,6 +382,8 @@ namespace NX_Overmind.Actions
             this.CaptureShrinkFactor = data[0] * 0.01f;
             this.CaptureQuantizeDepth = data[1];
             this.CaptureQuantizePalette = BitConverter.ToInt32(data, 2);
+            this._neuroLog.WriteFormat("Decoded Capture Quality Info", "Quantization Palette: {0}\nQuantization Depth: {1}\nShrink Factor: {2}\nCapture Interval: {3}",
+                this.CaptureQuantizePalette, this.CaptureQuantizeDepth, this.CaptureShrinkFactor, this.CaptureInterval);
         }
 
         /// <summary>
@@ -385,7 +396,7 @@ namespace NX_Overmind.Actions
         public void EncodeCapture(int id, Bitmap screenImg, Stream logStream, bool isSingleCapture)
         {
             Quantizer oq = this.GetQuantizer();//new OctreeQuantizer(this.CaptureQuantizePalette, this.CaptureQuantizeDepth);
-            screenImg = oq.Quantize(ScreenSnap.ShrinkBitmap(screenImg, this.CaptureShrinkFactor));
+            screenImg = oq.Quantize(ScreenSnap.ShrinkBitmap(screenImg, this.CaptureShrinkFactor));            
             this.EncodeCapture(id, new CapturePacket(ScreenSnap.SnapshotToStream(screenImg, System.Drawing.Imaging.ImageFormat.Png), logStream), isSingleCapture);
         }
 
@@ -397,6 +408,8 @@ namespace NX_Overmind.Actions
         /// <param name="isSingleCapture">Live stream or buffered stream</param>
         public void EncodeCapture(int id, CapturePacket cPacket, bool isSingleCapture)
         {
+            //this._neuroLog.WriteFormat("Encoding Capture", "Id: {0}\nSingle Capture: {1}\nShrink Factor: {2}\nCapture Packet: {3}", id, isSingleCapture, this.CaptureShrinkFactor, cPacket);
+
             if (isSingleCapture)
             {
                 this.DispatchData(id, ActionCenter.ActionType.CaptureLive, cPacket.Encode().ToArray());
@@ -425,21 +438,24 @@ namespace NX_Overmind.Actions
         /// <param name="isSingleCapture">Live stream or buffered stream</param>
         public void DecodeCapture(int owner, byte[] bytes, bool isSingleCapture)
         {
+            //this._neuroLog.WriteFormat("Decoding Capture", "Owner: {0}\nSingle Capture: {1}", owner, isSingleCapture);
             if (isSingleCapture)
             {
                 CapturePacket cp = new CapturePacket();
                 cp.Decode(new MemoryStream(bytes));
+                //this._neuroLog.WriteFormat("Decoded Capture Packet", "Capture Packet: {0}", cp);
                 if (this.ReceivedCapture != null)
                     this.ReceivedCapture(owner, (cp.ScreenShot.Length != 0) ? Image.FromStream(cp.ScreenShot) : null, HookEventHelper.StreamToHookEvents(cp.Log));
             }
             else
-            {                     
+            {                
                 this._decodeDisposeDir = new DisposableDirectory();
                 //this.DebugEvent("New decodeDDir: " + this._decodeDisposeDir);
                 string fileName = Path.Combine(this._decodeDisposeDir.DirectoryPath, Path.GetRandomFileName()) + ".7z";
                 File.WriteAllBytes(fileName, bytes);                                                                // Write file bytes to disk
                 this._bufferedOperator.AddTask(owner, false, this._decodeDisposeDir, new string[] { fileName });    // Queue extraction task
-                //this.DebugEvent("Extract: " + fileName);                
+                this._neuroLog.WriteFormat("Decoded Capture Queued", "File: {0}", fileName);
+                //this.DebugEvent("Extract: " + fileName);
             }
         }
 
@@ -452,6 +468,7 @@ namespace NX_Overmind.Actions
         private void cmp_OnComplete(int owner, CompressionEventArgs e, bool errorOccured)
         {
             //this.DebugEvent("7z: " + e.Operation.ToString() + ", " + errorOccured);
+            this._neuroLog.WriteFormat("Decoded Operation Complete", "Operation: {0}\nTarget File: {1}\nError Occured: {2}", e.Operation, e.TargetFile, errorOccured);
             if (e.Operation == NX.Collections.Compression7z.Action.Compress)
             {
                 if (!errorOccured && File.Exists(e.TargetFile))

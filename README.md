@@ -8,6 +8,7 @@ Overmind is client-server based remote support/monitoring application over a TCP
 * On the fly image quantisation and quality adjustment.
 * Facility to record session.
 * Low level event logging and remote control.
+* Shell/CMD access
 
 ## Required Framework
 
@@ -15,7 +16,7 @@ The project is dependent upon the following:
 
 * .NET Framework 3.5
 * WinApi Dlls *(user32.dll, gdi32.dll and kernel32.dll)*
-* 7z executable *(7z.exe and 7z.dll)*
+* 7z executable *(7za.exe)*
 
 ## Installation
 

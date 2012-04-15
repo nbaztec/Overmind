@@ -67,9 +67,9 @@ namespace NX.Inputs
             si.type = USER32.INPUTFlags.INPUT_KEYBOARD;
             si.ki = new USER32.KEYBDINPUT();
             si.ki.wVk = (ushort)vkCode;
-            si.ki.wScan = (ushort)USER32.MapVirtualKey((ushort)vkCode, USER32.MapType.MAPVK_VK_TO_VSC);
+            si.ki.wScan = (ushort)(USER32.MapVirtualKey((ushort)vkCode, USER32.MapType.MAPVK_VK_TO_VSC) | (ushort)(this.IsExtendedKey(vkCode) ? 0x100 : 0));    // Set Extended Bit
             si.ki.time = 0;
-            si.ki.dwFlags = 0;
+            si.ki.dwFlags = this.IsExtendedKey(vkCode)? (uint)USER32.INPUTFlags.KEYEVENTF_EXTENDEDKEY : 0;            
             si.ki.dwExtraInfo = USER32.GetMessageExtraInfo();
             inputs[0] = si;
             
@@ -87,9 +87,9 @@ namespace NX.Inputs
             si.type = USER32.INPUTFlags.INPUT_KEYBOARD;
             si.ki = new USER32.KEYBDINPUT();
             si.ki.wVk = (ushort)vkCode;
-            si.ki.wScan = (ushort)USER32.MapVirtualKey((ushort)vkCode, USER32.MapType.MAPVK_VK_TO_VSC);
+            si.ki.wScan = (ushort)(USER32.MapVirtualKey((ushort)vkCode, USER32.MapType.MAPVK_VK_TO_VSC) | (ushort)(this.IsExtendedKey(vkCode) ? 0x100 : 0));    // Set Extended Bit
             si.ki.time = 0;
-            si.ki.dwFlags = (uint)USER32.INPUTFlags.KEYEVENTF_KEYUP;
+            si.ki.dwFlags = (uint)USER32.INPUTFlags.KEYEVENTF_KEYUP | (this.IsExtendedKey(vkCode) ? (uint)USER32.INPUTFlags.KEYEVENTF_EXTENDEDKEY : 0);
             si.ki.dwExtraInfo = USER32.GetMessageExtraInfo();
             inputs[0] = si;
 
@@ -114,6 +114,31 @@ namespace NX.Inputs
         private bool CheckToggleState(Keys vkCode)
         {
             return ((USER32.GetKeyState((uint)vkCode) != 0) ? true : false);
+        }
+
+        /// <summary>
+        /// Checks if the Extended_Key Flag is required
+        /// </summary>
+        /// <param name="vkCode">Virtual code of key</param>
+        /// <returns>True if the key is an extended key</returns>
+        private bool IsExtendedKey(Keys vkCode)
+        {
+            switch (vkCode)
+            {
+                case Keys.Up:
+                case Keys.Down:
+                case Keys.Left:
+                case Keys.Right:
+                case Keys.Home:
+                case Keys.End:
+                case Keys.Prior:
+                case Keys.Next:
+                case Keys.Insert:
+                case Keys.Delete:
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }

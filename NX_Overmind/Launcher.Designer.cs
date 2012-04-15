@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Launcher));
             this.launchSelector = new System.Windows.Forms.TabControl();
             this.tabClient = new System.Windows.Forms.TabPage();
             this.checkClientScreenCapture = new System.Windows.Forms.CheckBox();
@@ -362,6 +363,7 @@
             this.Controls.Add(this.launchSelector);
             this.Controls.Add(this.menuStrip1);
             this.GlassEnabled = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(675, 494);
             this.Name = "Launcher";

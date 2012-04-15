@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NX_Overmind.CapturePacket">
+    <Position X="2.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgRECAABAAEAAAAAAAAAIQAgAAgEAAAAgQQAAIAg=</HashCode>
+      <FileName>CapturePacket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX_Overmind.LogItemCodec">
+    <Position X="4.25" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="NX_Overmind.LogItemCodec.Offsets" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>LogItemCodec.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="NX_Overmind.LogItemCodec.EventClass" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>LogItemCodec.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="NX_Overmind.LogItemCodec.EventType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>LogItemCodec.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAoAAAAAAA=</HashCode>
+      <FileName>LogItemCodec.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

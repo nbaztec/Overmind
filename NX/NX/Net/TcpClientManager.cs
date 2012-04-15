@@ -232,10 +232,14 @@ namespace NX.Net
         /// <param name="obj">NetPacket object</param>
         private void StartWriteSync(object obj)
         {
-            byte[] bytePack = this.SealPacket((obj as NetPacket).Serialize());
-            System.Net.Sockets.NetworkStream clientStream = this._tcpClient.GetStream();
-            if (clientStream.CanWrite)
-                clientStream.Write(bytePack, 0, bytePack.Length);
+            try
+            {
+                byte[] bytePack = this.SealPacket((obj as NetPacket).Serialize());
+                System.Net.Sockets.NetworkStream clientStream = this._tcpClient.GetStream();
+                if (clientStream.CanWrite)
+                    clientStream.Write(bytePack, 0, bytePack.Length);
+            }
+            catch (System.ObjectDisposedException) { }
         }
 
         /// <summary>

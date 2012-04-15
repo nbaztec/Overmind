@@ -43,6 +43,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionCenter.cs" />
+    <Compile Include="Controls\OvermindClientShell.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\OvermindClientShell.Designer.cs">
+      <DependentUpon>OvermindClientShell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OvermindClientViewerOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\OvermindClientViewerOptionsForm.Designer.cs">
+      <DependentUpon>OvermindClientViewerOptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShellManager.cs" />
     <Compile Include="CaptureManager.cs" />
     <Compile Include="EventManager.cs" />
     <Compile Include="Helpers\HookEventHelper.cs" />
@@ -53,6 +66,10 @@
     <ProjectReference Include="..\CapturePacket\CapturePacket.csproj">
       <Project>{56BD6D2F-84C7-42A7-8447-AB933DAD8D04}</Project>
       <Name>CapturePacket</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeuroLog\NeuroLog.csproj">
+      <Project>{8B4707E0-925D-4A41-9B13-72EDFDB817DF}</Project>
+      <Name>NeuroLog</Name>
     </ProjectReference>
     <ProjectReference Include="..\NX\NX.csproj">
       <Project>{5D85DF11-2820-45AA-B98F-41D1E760C2A7}</Project>
@@ -65,6 +82,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Actions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\OvermindClientShell.resx">
+      <DependentUpon>OvermindClientShell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OvermindClientViewerOptionsForm.resx">
+      <DependentUpon>OvermindClientViewerOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

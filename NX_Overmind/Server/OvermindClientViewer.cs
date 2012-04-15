@@ -30,8 +30,11 @@ namespace NX_Overmind
 
         public delegate void ClientTabEventHandler(object sender, bool enabled);
         public event ClientTabEventHandler OnRecordChanged;
+        public event ClientEventHandler OnDisconnectClicked;
 
-        private CaptureManager _captureMgr;        
+        private CaptureManager _captureMgr;
+        private ShellManager _shellMgr;
+        private OvermindClientShell _overmindShell;
 
         private int _clientId;
         public int ClientId
@@ -45,12 +48,14 @@ namespace NX_Overmind
         
         public int NormalizedPrecisionFactor { get; set; }
        
-        public OvermindClientTab(int clientId, string text, CaptureManager captureMgr)
+        public OvermindClientTab(int clientId, string text, CaptureManager captureMgr, ShellManager shellMgr)
         {
-            InitializeComponent();                  
+            InitializeComponent();
+            
             this.Text = text;
             this._clientId = clientId;
             this._captureMgr = captureMgr;
+            this._shellMgr = shellMgr;
             this.NormalizedPrecisionFactor = 4;
 
             this.toolStripLabelInputIndicator.Image = Properties.Resources.keyboard_delete;
@@ -81,8 +86,20 @@ namespace NX_Overmind
                 g.DrawImage(logo, (black_screen.Width - logo.Width * shrink) / 2, (black_screen.Height - logo.Height * shrink) / 2, logo.Width * shrink, logo.Height * shrink);
             }
             this.pictureScreen.Image = black_screen;
-            
-        }         
+
+            this._overmindShell = new OvermindClientShell();
+            this._overmindShell.TextInputReceived += new OvermindClientShell.DataEventHandler(_overmindShell_TextInputReceived);
+        }
+
+        public void AppendToShell(string text)
+        {
+            this._overmindShell.AppendLine(text);
+        }
+
+        void _overmindShell_TextInputReceived(string text)
+        {
+            this._shellMgr.EncodeEvent(this._clientId, text);   
+        }
 
         void pictureScreen_LostFocus(object sender, EventArgs e)
         {
@@ -104,18 +121,12 @@ namespace NX_Overmind
                 this.MouseWheel(this._clientId, this, e);
         }
 
-        void pictureScreen_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (this.MouseUp != null)
-                this.MouseUp(this._clientId, this, e);
-        }
-
         void pictureScreen_MouseMove(object sender, MouseEventArgs e)
         {
             Point p = NormalizePictureMousePosition(this.pictureScreen.Image, new Point(e.X, e.Y));
             int x = p.X;// (int)(e.X - (this.pictureScreen.Width - this.pictureScreen.Image.Width) / 2.0) - this.pictureScreen.Padding.Horizontal;
             int y = p.Y;// (int)(e.Y - (this.pictureScreen.Height - this.pictureScreen.Image.Height) / 2.0) - -this.pictureScreen.Padding.Vertical;
-            System.Diagnostics.Trace.WriteLine(String.Format("{0}, {1}  |  {2}, {3} [{4}x{5}]", x, y, e.X - this.pictureScreen.Padding.Left + Cursor.Current.HotSpot.X, e.Y - this.pictureScreen.Padding.Top, this.pictureScreen.Image.Width, this.pictureScreen.Image.Height));
+            
             e = new MouseEventArgs(e.Button, e.Clicks, x, y, e.Delta);
             if (this.MouseMove != null)
             {
@@ -215,26 +226,61 @@ namespace NX_Overmind
                 this.MouseEnter(this._clientId, this, e);
         }
 
+        private bool _supressMouseEvent = false;
         void pictureScreen_MouseDown(object sender, MouseEventArgs e)
         {
-            if (this.MouseDown != null)
-                this.MouseDown(this._clientId, this, e);
+            /*if (this.MouseDown != null)
+                this.MouseDown(this._clientId, this, e);*/
+            //System.Diagnostics.Trace.WriteLine("Down");
+            this.mouseEventTimer.Stop();
+            this.__clientHandler = this.MouseDown;
+            this.__eventArgs = e;
+            this.mouseEventTimer.Start();
         }
 
-        void pictureScreen_MouseDoubleClick(object sender, MouseEventArgs e)
+        void pictureScreen_MouseUp(object sender, MouseEventArgs e)
         {
-            if (this.MouseDoubleClick != null)
-                this.MouseDoubleClick(this._clientId, this, e);
+            /*if (this.MouseUp != null)
+                this.MouseUp(this._clientId, this, e);*/            
+            if (!this._supressMouseEvent)
+            {
+                //System.Diagnostics.Trace.WriteLine("Up");
+                this.mouseEventTimer.Stop();
+                this.__clientHandler = this.MouseUp;
+                this.__eventArgs = e;
+                this.mouseEventTimer.Start();
+                this._supressMouseEvent = false;
+            }
         }
 
         void pictureScreen_MouseClick(object sender, MouseEventArgs e)
         {
-            if (this.MouseClick != null)
+            /*if (this.MouseClick != null)
                 this.MouseClick(this._clientId, this, e);
+             */
+            //System.Diagnostics.Trace.WriteLine("Click");
+            this._supressMouseEvent = true;
+            this.mouseEventTimer.Stop();
+            this.__clientHandler = this.MouseClick;
+            this.__eventArgs = e;
+            this.mouseEventTimer.Start();
+        }
+
+        void pictureScreen_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            /*if (this.MouseDoubleClick != null)
+                this.MouseDoubleClick(this._clientId, this, e);
+             */
+            //System.Diagnostics.Trace.WriteLine("Double Click");
+            this.mouseEventTimer.Stop();
+            this.__clientHandler = this.MouseDoubleClick;
+            this.__eventArgs = e;
+            this.mouseEventTimer.Start();
         }
 
         void pictureScreen_KeyUp(object sender, KeyEventArgs e)
         {
+            this.__suppressNextKeyDown = false;
             e.Handled = true;
             if (this.KeyUp != null)
                 this.KeyUp(this._clientId, this, e);
@@ -242,19 +288,28 @@ namespace NX_Overmind
 
         void pictureScreen_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = true;
+            e.Handled = true;            
             if (this.KeyPress != null)
                 this.KeyPress(this._clientId, this, e);
         }
 
+        private volatile bool __suppressNextKeyDown = false;
+        private int __previousKey = 0;
         void pictureScreen_KeyDown(object sender, KeyEventArgs e)
         {
             e.Handled = true;
-            if (this.KeyDown != null)
+            if (this.__previousKey == e.KeyValue && this.__suppressNextKeyDown)
+                return;
+
+            if(this.KeyDown != null)
                 this.KeyDown(this._clientId, this, e);
+            
+            this.__previousKey = e.KeyValue;
+            this.__suppressNextKeyDown = true;
+            this.keyEventTimer.Start();
         }
-        
-        private void toolStrip_Items(object sender, EventArgs e)
+
+        private void toolStrip_ItemChecked(object sender, EventArgs e)
         {
             ToolStripButton button = sender as ToolStripButton;
             if (button == this.toolStripButtonRecord)
@@ -275,12 +330,37 @@ namespace NX_Overmind
                 ovof.Dispose();
                 this._captureMgr.EncodeCaptureQualityInfo(this._clientId);
             }
+            else if (button == this.toolStripButtonShell)
+            {
+                this._overmindShell.ShowDialog();                
+            }
+            else if (button == this.toolStripButtonDisconnect)
+            {
+                if (this.OnDisconnectClicked != null)
+                    this.OnDisconnectClicked(this._clientId, this, null);
+            }
             else
             {
                 this.splitLogContainer.Panel1Collapsed = !this.toolStripButtonLogEvent.Checked;
                 this.splitLogContainer.Panel2Collapsed = !this.toolStripButtonLogConn.Checked;
                 this.splitContainerMain.Panel2Collapsed = !(this.toolStripButtonLogEvent.Checked || this.toolStripButtonLogConn.Checked);
             }
+        }
+
+        private EventArgs __eventArgs;
+        private ClientEventHandler __clientHandler;
+        private void mouseEventTimer_Tick(object sender, EventArgs e)
+        {
+            //System.Diagnostics.Trace.WriteLine("Dispatch: "+this.__meArgs.Clicks.ToString());
+            this.mouseEventTimer.Enabled = false;
+            if (this.__clientHandler != null)
+                this.__clientHandler(this._clientId, this, this.__eventArgs);            
+        }
+        
+        private void keyEventTimer_Tick(object sender, EventArgs e)
+        {
+            this.keyEventTimer.Enabled = false;
+            this.__suppressNextKeyDown = false;
         }
     }
 }

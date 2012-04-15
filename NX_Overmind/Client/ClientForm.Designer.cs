@@ -29,12 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientForm));
             this.captureTimer = new System.Windows.Forms.Timer(this.components);
             this.connTimer = new System.Windows.Forms.Timer(this.components);
             this.textLog = new NX.Controls.RichTextConsole();
             this.menuStripClientMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.capturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,14 +44,13 @@
             this.keyEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mouseEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStripClientMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // captureTimer
             // 
             this.captureTimer.Interval = 500;
-            this.captureTimer.Tick += new System.EventHandler(this.timerClock_Tick);
+            this.captureTimer.Tick += new System.EventHandler(this.captureTimer_Tick);
             // 
             // connTimer
             // 
@@ -106,6 +107,14 @@
             this.saveLogToolStripMenuItem.Text = "Save Log";
             this.saveLogToolStripMenuItem.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
+            // stopToolStripMenuItem
+            // 
+            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
+            this.stopToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.stopToolStripMenuItem.Text = "Stop";
+            this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -129,14 +138,14 @@
             this.keyEventsToolStripMenuItem,
             this.mouseEventsToolStripMenuItem});
             this.capturesToolStripMenuItem.Name = "capturesToolStripMenuItem";
-            this.capturesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.capturesToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.capturesToolStripMenuItem.Text = "Captures";
             // 
             // screenToolStripMenuItem
             // 
             this.screenToolStripMenuItem.CheckOnClick = true;
             this.screenToolStripMenuItem.Name = "screenToolStripMenuItem";
-            this.screenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.screenToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.screenToolStripMenuItem.Text = "Screen";
             this.screenToolStripMenuItem.CheckedChanged += new System.EventHandler(this.checkBox_CheckCaptureEventChanged);
             // 
@@ -144,7 +153,7 @@
             // 
             this.keyEventsToolStripMenuItem.CheckOnClick = true;
             this.keyEventsToolStripMenuItem.Name = "keyEventsToolStripMenuItem";
-            this.keyEventsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.keyEventsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.keyEventsToolStripMenuItem.Text = "Key Events";
             this.keyEventsToolStripMenuItem.CheckedChanged += new System.EventHandler(this.checkBox_CheckCaptureEventChanged);
             // 
@@ -152,21 +161,13 @@
             // 
             this.mouseEventsToolStripMenuItem.CheckOnClick = true;
             this.mouseEventsToolStripMenuItem.Name = "mouseEventsToolStripMenuItem";
-            this.mouseEventsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.mouseEventsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.mouseEventsToolStripMenuItem.Text = "Mouse Events";
             this.mouseEventsToolStripMenuItem.CheckedChanged += new System.EventHandler(this.checkBox_CheckCaptureEventChanged);
             // 
             // saveFileDialog
             // 
             this.saveFileDialog.DefaultExt = "txt";
-            // 
-            // stopToolStripMenuItem
-            // 
-            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.stopToolStripMenuItem.Text = "Stop";
-            this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
             // 
             // ClientForm
             // 
@@ -176,6 +177,7 @@
             this.ClientSize = new System.Drawing.Size(1192, 513);
             this.Controls.Add(this.textLog);
             this.Controls.Add(this.menuStripClientMain);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStripClientMain;
             this.Name = "ClientForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

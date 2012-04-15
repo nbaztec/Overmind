@@ -13,6 +13,7 @@ namespace NX.Imaging
         /// FreeImage method
         /// </summary>
         /// <param name="bmp"></param>
+        /*
         public static void FI_ConvertSave(Bitmap bmp)
         {
             if (bmp != null)
@@ -41,6 +42,7 @@ namespace NX.Imaging
                 bmp.Dispose();
             }
         }
+        */
 
         // From wischik.com
         static Bitmap CopyToBpp(System.Drawing.Bitmap b, int bpp)

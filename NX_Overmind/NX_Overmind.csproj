@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>nx_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,12 +73,6 @@
     </Compile>
     <Compile Include="Server\CaptureRecordViewer.Designer.cs">
       <DependentUpon>CaptureRecordViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Server\OvermindClientViewerOptionsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Server\OvermindClientViewerOptionsForm.Designer.cs">
-      <DependentUpon>OvermindClientViewerOptionsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Server\SelectablePictureBox.cs">
       <SubType>Component</SubType>
@@ -114,9 +111,6 @@
     <EmbeddedResource Include="Server\CaptureRecordViewer.resx">
       <DependentUpon>CaptureRecordViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Server\OvermindClientViewerOptionsForm.resx">
-      <DependentUpon>OvermindClientViewerOptionsForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Server\ServerForm.resx">
       <DependentUpon>ServerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -150,13 +144,14 @@
       <Project>{56BD6D2F-84C7-42A7-8447-AB933DAD8D04}</Project>
       <Name>CapturePacket</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NeuroLog\NeuroLog.csproj">
+      <Project>{8B4707E0-925D-4A41-9B13-72EDFDB817DF}</Project>
+      <Name>NeuroLog</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NX\NX.csproj">
       <Project>{5D85DF11-2820-45AA-B98F-41D1E760C2A7}</Project>
       <Name>NX</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Untitled.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\keyboard.png" />
@@ -165,10 +160,16 @@
     <None Include="Resources\keyboard_delete.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\test_screen.png" />
+    <None Include="Resources\overmind_logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\overmind_logo.png" />
+    <None Include="Resources\terminal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="nx_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

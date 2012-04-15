@@ -35,13 +35,17 @@
             this.toolStripButtonLogConn = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonRecord = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonOptions = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabelInputIndicator = new System.Windows.Forms.ToolStripLabel();
             this.textEventLog = new NX.Controls.RichTextConsole();
             this.textLog = new NX.Controls.RichTextConsole();
             this.splitLogContainer = new System.Windows.Forms.SplitContainer();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
+            this.mouseEventTimer = new System.Windows.Forms.Timer(this.components);
+            this.keyEventTimer = new System.Windows.Forms.Timer(this.components);
+            this.toolStripButtonDisconnect = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonOptions = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonShell = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabelInputIndicator = new System.Windows.Forms.ToolStripLabel();
             this.pictureScreen = new System.Windows.Forms.SelectablePictureBox(this.components);
             this.toolStripMenu.SuspendLayout();
             this.splitLogContainer.Panel1.SuspendLayout();
@@ -61,8 +65,10 @@
             this.toolStripButtonLogEvent,
             this.toolStripButtonLogConn,
             this.toolStripSeparator,
+            this.toolStripButtonDisconnect,
             this.toolStripButtonRecord,
             this.toolStripButtonOptions,
+            this.toolStripButtonShell,
             this.toolStripSeparator1,
             this.toolStripLabelInputIndicator});
             this.toolStripMenu.Location = new System.Drawing.Point(3, 3);
@@ -80,7 +86,7 @@
             this.toolStripButtonLogEvent.Name = "toolStripButtonLogEvent";
             this.toolStripButtonLogEvent.Size = new System.Drawing.Size(63, 22);
             this.toolStripButtonLogEvent.Text = "Event Log";
-            this.toolStripButtonLogEvent.CheckedChanged += new System.EventHandler(this.toolStrip_Items);
+            this.toolStripButtonLogEvent.CheckedChanged += new System.EventHandler(this.toolStrip_ItemChecked);
             // 
             // toolStripButtonLogConn
             // 
@@ -91,7 +97,7 @@
             this.toolStripButtonLogConn.Name = "toolStripButtonLogConn";
             this.toolStripButtonLogConn.Size = new System.Drawing.Size(96, 22);
             this.toolStripButtonLogConn.Text = "Connection Log";
-            this.toolStripButtonLogConn.CheckedChanged += new System.EventHandler(this.toolStrip_Items);
+            this.toolStripButtonLogConn.CheckedChanged += new System.EventHandler(this.toolStrip_ItemChecked);
             // 
             // toolStripSeparator
             // 
@@ -105,30 +111,12 @@
             this.toolStripButtonRecord.Name = "toolStripButtonRecord";
             this.toolStripButtonRecord.Size = new System.Drawing.Size(48, 22);
             this.toolStripButtonRecord.Text = "Record";
-            this.toolStripButtonRecord.CheckedChanged += new System.EventHandler(this.toolStrip_Items);
-            // 
-            // toolStripButtonOptions
-            // 
-            this.toolStripButtonOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButtonOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonOptions.Image")));
-            this.toolStripButtonOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonOptions.Name = "toolStripButtonOptions";
-            this.toolStripButtonOptions.Size = new System.Drawing.Size(53, 22);
-            this.toolStripButtonOptions.Text = "Options";
-            this.toolStripButtonOptions.Click += new System.EventHandler(this.toolStrip_Items);
+            this.toolStripButtonRecord.CheckedChanged += new System.EventHandler(this.toolStrip_ItemChecked);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabelInputIndicator
-            // 
-            this.toolStripLabelInputIndicator.AutoToolTip = true;
-            this.toolStripLabelInputIndicator.Image = global::NX_Overmind.Properties.Resources.keyboard_delete;
-            this.toolStripLabelInputIndicator.Name = "toolStripLabelInputIndicator";
-            this.toolStripLabelInputIndicator.Size = new System.Drawing.Size(16, 22);
-            this.toolStripLabelInputIndicator.ToolTipText = "Input Disabled";
             // 
             // textEventLog
             // 
@@ -205,6 +193,55 @@
             this.splitContainerMain.SplitterDistance = 926;
             this.splitContainerMain.TabIndex = 13;
             // 
+            // mouseEventTimer
+            // 
+            this.mouseEventTimer.Interval = 200;
+            this.mouseEventTimer.Tick += new System.EventHandler(this.mouseEventTimer_Tick);
+            // 
+            // keyEventTimer
+            // 
+            this.keyEventTimer.Interval = 50;
+            this.keyEventTimer.Tick += new System.EventHandler(this.keyEventTimer_Tick);
+            // 
+            // toolStripButtonDisconnect
+            // 
+            this.toolStripButtonDisconnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonDisconnect.Image = global::NX_Overmind.Properties.Resources.cross;
+            this.toolStripButtonDisconnect.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDisconnect.Name = "toolStripButtonDisconnect";
+            this.toolStripButtonDisconnect.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonDisconnect.Text = "Disconnect";
+            this.toolStripButtonDisconnect.Click += new System.EventHandler(this.toolStrip_ItemChecked);
+            // 
+            // toolStripButtonOptions
+            // 
+            this.toolStripButtonOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonOptions.Image")));
+            this.toolStripButtonOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonOptions.Name = "toolStripButtonOptions";
+            this.toolStripButtonOptions.Size = new System.Drawing.Size(53, 22);
+            this.toolStripButtonOptions.Text = "Options";
+            this.toolStripButtonOptions.Click += new System.EventHandler(this.toolStrip_ItemChecked);
+            // 
+            // toolStripButtonShell
+            // 
+            this.toolStripButtonShell.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonShell.Image = global::NX_Overmind.Properties.Resources.terminal;
+            this.toolStripButtonShell.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonShell.Name = "toolStripButtonShell";
+            this.toolStripButtonShell.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonShell.Text = "toolStripButtonShell";
+            this.toolStripButtonShell.ToolTipText = "Open Shell";
+            this.toolStripButtonShell.Click += new System.EventHandler(this.toolStrip_ItemChecked);
+            // 
+            // toolStripLabelInputIndicator
+            // 
+            this.toolStripLabelInputIndicator.AutoToolTip = true;
+            this.toolStripLabelInputIndicator.Image = global::NX_Overmind.Properties.Resources.keyboard_delete;
+            this.toolStripLabelInputIndicator.Name = "toolStripLabelInputIndicator";
+            this.toolStripLabelInputIndicator.Size = new System.Drawing.Size(16, 22);
+            this.toolStripLabelInputIndicator.ToolTipText = "Input Disabled";
+            // 
             // pictureScreen
             // 
             this.pictureScreen.Cursor = System.Windows.Forms.Cursors.Default;
@@ -256,6 +293,10 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonOptions;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabelInputIndicator;
+        private System.Windows.Forms.ToolStripButton toolStripButtonShell;
+        private System.Windows.Forms.Timer mouseEventTimer;
+        private System.Windows.Forms.Timer keyEventTimer;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDisconnect;
 
         public NX.Controls.RichTextConsole NetworkLog { get { return this.textLog; } }
         public NX.Controls.RichTextConsole CaptureLog { get { return this.textEventLog; } }

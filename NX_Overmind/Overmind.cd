@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NX_Overmind.KeyCapture" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIBACCAAAAAQAAAAAAQBAAAAwBIAIAAAACAAAAA=</HashCode>
+      <FileName>Captures\KeyCapture.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX_Overmind.LogQueue&lt;T&gt;" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAEAAAAAAAAAAAAAABAAAAAAAAABIAAA=</HashCode>
+      <FileName>Captures\LogQueue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX_Overmind.MouseCapture" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAgCAAAIAAAAAAAgAAAAEAAgAAMAAAAAAAABA=</HashCode>
+      <FileName>Captures\MouseCapture.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX_Overmind.ScreenCapture" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAACAAAAAAACAAACAAAAAAAABAIBAAAAABAAA=</HashCode>
+      <FileName>Captures\ScreenCapture.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX_Overmind.DebugForm" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAQBAIAAICACgACACAIAAAAEFQAAAAgAIA=</HashCode>
+      <FileName>DebugForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NX_Overmind.MainForm" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQBQAAAACACEgAgAgCEQAACIAEIBAABEUAABQAAAAQ=</HashCode>
+      <FileName>MainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
